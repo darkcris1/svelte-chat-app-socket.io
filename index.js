@@ -42,6 +42,8 @@ io.on('connection', (socket) => {
   socket.on('user-leave', handleLeaveAndDisconnect)
 })
 
-http.listen(3000, () => {
-  console.log('listening on port 3000')
+const PORT = process.env.PORT || 3000
+
+http.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`)
 })

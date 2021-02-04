@@ -2,7 +2,6 @@
   import { createEventDispatcher } from 'svelte'
 
   const dispathcer = createEventDispatcher()
-  export let variant = 'primary'
 
   function forward(e) {
     dispathcer('click', e)

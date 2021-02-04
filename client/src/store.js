@@ -1,11 +1,11 @@
 import io from 'socket.io-client'
 import { writable } from 'svelte/store'
-import { ID_KEY } from './const'
+import { ID_KEY, SOCKET_ENDPOINT } from './const'
 
 export const users = writable([])
 export const loggedUser = writable()
 
-export const socket = io('http://localhost:3000', {
+export const socket = io(SOCKET_ENDPOINT, {
   transports: ['websocket', 'polling'],
 })
 
