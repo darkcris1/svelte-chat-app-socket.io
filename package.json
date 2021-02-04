@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "14.15.1"
   },
   "nodemonConfig": {
     "ignore": [

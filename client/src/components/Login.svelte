@@ -3,7 +3,7 @@
   import Input from './Input.svelte'
   import Logo from './Logo.svelte'
 
-  export let username, room, handleLogin
+  export let usernameValue, roomValue, handleLogin
 </script>
 
 <div class="grid place-items-center w-full">
@@ -14,11 +14,11 @@
     <Logo />
     <form on:submit|preventDefault={handleLogin}>
       <Input
-        bind:value={username}
+        bind:value={usernameValue}
         label="Name"
         name="name"
         placeholder="Name" />
-      <Input bind:value={room} name="room" label="Room Name" />
+      <Input bind:value={roomValue} name="room" label="Room Name" />
       <Button class="block w-full font-semibold">Enter or Create room</Button>
     </form>
   </div>
