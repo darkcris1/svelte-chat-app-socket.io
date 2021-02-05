@@ -20,7 +20,7 @@
   let isOpen
   let fileValue
   let sendButton
-
+  let isSending = false
   async function handleMessage(e) {
     const file = fileValue.files[0] || null
     const maxAllowedSize = 1 * 1024 * 1024
@@ -30,6 +30,7 @@
       fileValue.value = ''
       return
     }
+    isSending = true
     const dataMessage = {
       username,
       message: messageValue,
@@ -37,10 +38,10 @@
       room,
     }
     socket.emit('send-message', dataMessage, (me) => {
-      me.isSelf = true
       messages = [...messages, me]
       messageValue = ''
       fileValue.value = ''
+      isSending = false
     })
   }
   function handleLeave() {
@@ -125,11 +126,12 @@
           <!-- svelte-ignore a11y-autofocus -->
           <textarea
             bind:value={messageValue}
+            on:keydown={(e) => e.key === 'Enter' && e.preventDefault()}
             autocomplete="off"
             autofocus={true}
             class="w-full shadow-md block py-3 px-1 pr-8 mt-2 text-gray-800
             appearance-none border-b-2 border-gray-200 focus:text-gray-500
-            focus:outline-none focus:border-gray-200"
+            focus:outline-none focus:border-gray-200 resize-none"
             name="message" />
 
           <FileInput
@@ -156,7 +158,7 @@
           </FileInput>
         </div>
 
-        <Button bind:ref={sendButton} class=" ml-2">
+        <Button disabled={isSending} bind:ref={sendButton} class=" ml-2">
           Send
           <svg
             slot="icon"
