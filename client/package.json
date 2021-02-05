@@ -24,6 +24,7 @@
   "dependencies": {
     "@rollup/plugin-replace": "^2.3.4",
     "calerts": "^1.1.10",
+    "compressorjs": "^1.0.7",
     "sirv-cli": "^1.0.0",
     "socket.io-client": "^3.1.0"
   }
