@@ -1,9 +1,10 @@
 <script>
   import { fade } from 'svelte/transition'
   import calert from 'calerts'
-  export let username = '',
-    message = '',
-    image = ''
+  export let username = ''
+  export let message = ''
+  export let image = ''
+  export let time = ''
   async function handleModal() {
     const res = await calert({
       image: {
@@ -14,7 +15,7 @@
       cancelButton: 'Cancel',
     })
     if (res.isConfirmed) {
-      calert.utils.tag('a', { href: src, download: 'image.png' }).click()
+      calert.utils.tag('a', { href: image, download: 'image.png' }).click()
     }
   }
 
@@ -34,6 +35,10 @@
       class:bg-white={!isSelf}
       style="word-break:break-word;"
       class="relative mr-3 text-sm py-2 px-4 shadow rounded-xl max-w-full">
+      <div class="flex">
+        <span class="font-bold text-blue-600 mr-2">{username}</span>
+        <span class="text-blue-500 mr-2">{time}</span>
+      </div>
       <div>{message}</div>
       {#if image}
         <img

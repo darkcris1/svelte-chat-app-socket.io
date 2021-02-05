@@ -2,8 +2,7 @@
   import { uuid } from '../utils'
   export let label = '',
     input = '',
-    className,
-    onChange
+    className
   export { className as class }
 
   const uid = uuid('LABEL')
@@ -23,7 +22,8 @@
   <input
     {...$$restProps}
     bind:this={input}
-    on:change={onChange}
+    on:change
+    on:input
     type="file"
     hidden
     id={uniqueLabel} />
