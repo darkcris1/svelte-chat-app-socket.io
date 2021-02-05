@@ -1,3 +1,5 @@
+const { format } = require('date-fns')
+
 function uuid(prefix = '', date = true) {
   let counter = 0
   return {
@@ -8,11 +10,8 @@ function uuid(prefix = '', date = true) {
 }
 
 const uid = uuid('SERVERMSG')
-
-exports.sendServerMessage = function (socket, room, message) {
-  socket.broadcast.to(room).emit('server-message', {
-    username: '☺',
-    id: uid.create(),
-    text: message,
-  })
+exports.formatMsgObj = function (obj) {
+  obj.time = format(Date.now(), 'h:mm a')
+  obj.id = uid.create()
+  return obj
 }
