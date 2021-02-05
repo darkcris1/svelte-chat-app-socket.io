@@ -38,6 +38,7 @@
       room,
     }
     socket.emit('send-message', dataMessage, (me) => {
+      me.isSelf = true
       messages = [...messages, me]
       messageValue = ''
       fileValue.value = ''
