@@ -24,11 +24,7 @@
 
     <Logo />
     <form on:submit|preventDefault={handleLogin}>
-      <Input
-        bind:value={usernameValue}
-        label="Name"
-        name="name"
-        placeholder="Name" />
+      <Input bind:value={usernameValue} label="Name" name="name" />
       <Input bind:value={roomValue} name="room" label="Room Name" />
       <Button disabled={isLoading} class="block w-full font-semibold">
         Enter or Create room

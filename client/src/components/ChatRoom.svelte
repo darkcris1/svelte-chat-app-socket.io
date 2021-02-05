@@ -1,6 +1,5 @@
 <script>
   import { afterUpdate } from 'svelte'
-  import calert from 'calerts'
   import Button from './Button.svelte'
   import Container from './Container.svelte'
   import Logo from './Logo.svelte'
@@ -23,17 +22,13 @@
   let isSending = false
   async function handleMessage(e) {
     const file = fileValue.files[0] || null
-    const maxAllowedSize = 1 * 1024 * 1024
     if (e.target.tagName === 'FORM' && !messageValue) return
-    if (file && file.size > maxAllowedSize) {
-      calert('Error', 'Image must be 1mb size below', 'error')
-      fileValue.value = ''
-      return
-    }
+
     isSending = true
     const dataMessage = {
       username,
       message: messageValue,
+      imageName: file && file.name,
       image: file && (await toDataUrl(file)),
       room,
     }
@@ -124,15 +119,13 @@
         on:submit|preventDefault={handleMessage}
         class="flex items-center justify-center">
         <div class="w-full relative">
-          <!-- svelte-ignore a11y-autofocus -->
           <textarea
             bind:value={messageValue}
             on:keydown={(e) => e.key === 'Enter' && e.preventDefault()}
             autocomplete="off"
-            autofocus={true}
-            class="w-full shadow-md block py-3 px-1 pr-8 mt-2 text-gray-800
+            class="w-full h-12 shadow-md block py-2 px-1 pr-8 mt-2 text-gray-800
             appearance-none border-b-2 border-gray-200 focus:text-gray-500
-            focus:outline-none focus:border-gray-200 resize-none"
+            focus:outline-none focus:border-gray-200 resize-none rounded-md"
             name="message" />
 
           <FileInput

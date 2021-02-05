@@ -5,6 +5,7 @@
   export let message = ''
   export let image = ''
   export let time = ''
+  export let imageName = ''
   async function handleModal() {
     const res = await calert({
       image: {
@@ -15,7 +16,9 @@
       cancelButton: 'Cancel',
     })
     if (res.isConfirmed) {
-      calert.utils.tag('a', { href: image, download: 'image.png' }).click()
+      calert.utils
+        .tag('a', { href: image, download: imageName || 'image.png' })
+        .click()
     }
   }
 

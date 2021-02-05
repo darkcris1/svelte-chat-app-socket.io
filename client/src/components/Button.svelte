@@ -1,16 +1,10 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
   export let danger = false
-  export let ref = ''
-  const dispathcer = createEventDispatcher()
-
-  function forward(e) {
-    dispathcer('click', e)
-  }
+  export let ref = null
 </script>
 
 <button
-  on:click={forward}
+  on:click
   bind:this={ref}
   {...$$restProps}
   class:bg-blue-500={!danger}

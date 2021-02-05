@@ -16,5 +16,5 @@
         2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
     </svg>
   </div>
-  <div class="ml-2 font-bold text-2xl">Chat App</div>
+  <div class="ml-2 font-bold text-2xl">Chatterify</div>
 </div>
