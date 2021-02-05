@@ -2,8 +2,19 @@
   import Button from './Button.svelte'
   import Input from './Input.svelte'
   import Logo from './Logo.svelte'
+  import { joinRoom } from '../store'
 
-  export let usernameValue, roomValue, handleLogin
+  let usernameValue, roomValue
+
+  let isLoading = false
+
+  async function handleLogin() {
+    if (!usernameValue || !roomValue) return
+    isLoading = true
+    joinRoom(usernameValue, roomValue, () => {
+      isLoading = false
+    })
+  }
 </script>
 
 <div class="grid place-items-center w-full">
@@ -19,7 +30,9 @@
         name="name"
         placeholder="Name" />
       <Input bind:value={roomValue} name="room" label="Room Name" />
-      <Button class="block w-full font-semibold">Enter or Create room</Button>
+      <Button disabled={isLoading} class="block w-full font-semibold">
+        Enter or Create room
+      </Button>
     </form>
   </div>
 </div>

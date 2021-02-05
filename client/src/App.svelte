@@ -2,17 +2,7 @@
   import Tailwindcss from './Tailwindcss.svelte'
   import Login from './components/Login.svelte'
   import ChatRoom from './components/ChatRoom.svelte'
-  import { joinRoom, loggedUser, users } from './store'
-
-  $: console.log($users)
-
-  let usernameValue = '',
-    roomValue = ''
-
-  function handleLogin() {
-    if (!usernameValue || !roomValue) return
-    joinRoom(usernameValue, roomValue)
-  }
+  import { loggedUser } from './store'
 </script>
 
 <Tailwindcss />
@@ -20,7 +10,7 @@
   {#if $loggedUser}
     <ChatRoom />
   {:else}
-    <Login bind:usernameValue bind:roomValue {handleLogin} />
+    <Login />
   {/if}
 
 </main>

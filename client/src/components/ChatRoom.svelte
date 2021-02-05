@@ -1,5 +1,6 @@
 <script>
   import { afterUpdate } from 'svelte'
+  import calert from 'calerts'
   import Button from './Button.svelte'
   import Container from './Container.svelte'
   import Input from './Input.svelte'
@@ -8,23 +9,41 @@
   import People from './People.svelte'
   import Toggler from './Toggler.svelte'
   import { ID_KEY } from '../const'
-  import { uuid } from '../utils'
+  import { uuid, toDataUrl } from '../utils'
   import { users, socket, loggedUser } from '../store'
+  import FileInput from './FileInput.svelte'
 
   const { username, room } = $loggedUser
   const uid = uuid('user')
 
-  let message
+  let message = ''
   let messages = []
   let chatMessages
   let isOpen
-  function handleMessage() {
-    if (!message) return
-    const dataMessage = { username, text: message, room, id: uid.create() }
+  let fileValue
+
+  async function handleMessage(e) {
+    console.log(e)
+    const file = fileValue.files[0] || null
+    const maxAllowedSize = 1 * 1024 * 1024
+    if (e.target.tagName === 'FORM' && !message) return
+    if (file && file.size > maxAllowedSize) {
+      calert('Error', 'Image must be 1mb size below', 'error')
+      fileValue.value = ''
+      return
+    }
+    const dataMessage = {
+      username,
+      text: message,
+      image: file && (await toDataUrl(file)),
+      room,
+      id: uid.create(),
+    }
     socket.emit('send-message', dataMessage)
     dataMessage.isSelf = true
     messages = [...messages, dataMessage]
     message = ''
+    fileValue.value = ''
   }
   function handleLeave() {
     localStorage.removeItem(ID_KEY)
@@ -83,9 +102,9 @@
         bind:this={chatMessages}
         class="flex flex-col h-full overflow-x-auto mb-4 smoo">
         <div class="flex flex-col h-full">
-          <div class="grid grid-cols-12 gap-y-2">
-            {#each messages as { text, username, id, isSelf } (id)}
-              <Message name={username} message={text} {isSelf} />
+          <div class="flex flex-col">
+            {#each messages as { text, id, image, username, isSelf } (id)}
+              <Message {username} message={text} {image} {isSelf} />
             {/each}
 
           </div>
@@ -95,13 +114,36 @@
       <form
         on:submit|preventDefault={handleMessage}
         class="flex items-center justify-center">
+        <div class="w-full relative">
+          <Input
+            bind:value={message}
+            autocomplete="off"
+            autofocus={true}
+            class="w-full shadow-md"
+            name="message" />
 
-        <Input
-          bind:value={message}
-          autocomplete="off"
-          autofocus={true}
-          class="w-full shadow-md"
-          name="message" />
+          <FileInput
+            onChange={handleMessage}
+            class="absolute right-0 bottom-0"
+            bind:input={fileValue}>
+
+            <svg
+              slot="icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="blue"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+          </FileInput>
+        </div>
 
         <Button class=" ml-2">
           Send
