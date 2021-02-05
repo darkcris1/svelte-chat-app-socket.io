@@ -5,9 +5,7 @@ import { ID_KEY, SOCKET_ENDPOINT } from './const'
 export const users = writable([])
 export const loggedUser = writable()
 
-export const socket = io(SOCKET_ENDPOINT, {
-  transports: ['websocket', 'polling'],
-})
+export const socket = io(SOCKET_ENDPOINT)
 
 socket.on('user-disconnect', (leavingUser) => {
   users.update((currentUsers) => {

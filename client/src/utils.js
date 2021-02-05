@@ -6,3 +6,14 @@ export function uuid(prefix = '', date = true) {
     },
   }
 }
+
+export function toDataUrl(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+
+    reader.onload = function () {
+      resolve(reader.result)
+    }
+    reader.readAsDataURL(file)
+  })
+}
