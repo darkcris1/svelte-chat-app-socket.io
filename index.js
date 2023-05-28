@@ -5,8 +5,11 @@ const io = require("socket.io")(http);
 const path = require("path");
 const { formatMsgObj } = require("./utils");
 const { createUser, getUsersInRoom, removeUser } = require("./users");
+const { ServeGrip } = require( '@fanoutio/serve-grip' );
 
 app.use(express.static(path.join(__dirname, "client/public")));
+const serveGrip = new ServeGrip(/* config */);
+app.use(serveGrip);
 
 const SERVER_NAME = "_BOT_";
 
